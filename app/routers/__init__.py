@@ -1,0 +1,2 @@
+from .category import router as category_router # Импортируем роутер из category
+from .products import router as product_router # Импортируем роутер из products
