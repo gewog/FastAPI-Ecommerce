@@ -31,7 +31,7 @@ class Settings(BaseSettings):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
     model_config = SettingsConfigDict(
-        env_file="./.env",  # Путь к файлу с переменными окружения
+        env_file=r"C:\Users\GIGABYTE\Desktop\Сетевое окружение\FastAPI-Ecommerce\app\backend\.env",  # Путь к файлу с переменными окружения
         extra="ignore"  # Игнорировать лишние переменные в .env
     )
 
