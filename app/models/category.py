@@ -10,7 +10,7 @@ class Base(DeclarativeBase):
 
 from sqlalchemy.schema import CreateTable
 class Category(Base):
-    """SQLAlchemy модель катеорий продуктов"""
+    """SQLAlchemy модель катеорий продуктов (подкатегорий)"""
     __tablename__ = "categories"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
@@ -23,4 +23,4 @@ class Category(Base):
     product: Mapped[list["Product"]] = relationship(
         back_populates="category") # Отношение 1 к многим с таблицей Product
 
-print(CreateTable(Category.__table__))
+# print(CreateTable(Category.__table__))
