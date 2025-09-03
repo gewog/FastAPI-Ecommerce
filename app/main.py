@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from routers import category_router, product_router
+from app.routers import category_router, product_router
 
 
 @asynccontextmanager
@@ -31,5 +31,5 @@ app.include_router(category_router)
 app.include_router(product_router)
 
 
-# if __name__ == "__main__":
-#     uvicorn.run("main:app", reload=True)
+if __name__ == "__main__":
+    uvicorn.run("main:app", reload=True, port=1111)
