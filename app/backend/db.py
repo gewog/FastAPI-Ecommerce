@@ -1,3 +1,7 @@
+"""
+Основнйо файл работы с бд
+"""
+
 import asyncio
 
 from sqlalchemy import text, select
@@ -29,7 +33,7 @@ async def get_version():
         res = await ss.execute(text("select version();"))
         print(res.fetchone())
 
-async def get_data(id):
+async def get_data(id: int) -> str:
     """Тестовое получение данных из таблицы Категории продуктов
        Необходимо дропнуть данные из таблицы и удалить эту функцию
     """
@@ -40,8 +44,6 @@ async def get_data(id):
 
 if __name__ == "__main__":
     try:
-        asyncio.run(
-            get_data(1)
-        )
+        ...
     except Exception as e:
         print(e)
