@@ -14,5 +14,8 @@ async def get_session() -> AsyncSession:
     Сессия автоматически закрывается после завершения запроса.
     """
     async with session() as ss:
-        yield ss
+        try:
+            yield ss
+        finally:
+            await ss.close() # Закрывает сессию при ошибке
 
