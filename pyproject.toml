@@ -15,7 +15,9 @@ dependencies = [
     "pylint (>=3.3.8,<4.0.0)",
     "sqlalchemy[all] (>=2.0.43,<3.0.0)",
     "asyncpg (>=0.30.0,<0.31.0)",
-    "alembic[all] (>=1.16.5,<2.0.0)"
+    "alembic[all] (>=1.16.5,<2.0.0)",
+    "slugify (>=0.0.1,<0.0.2)",
+    "python-slugify (>=8.0.4,<9.0.0)"
 ]
 
 
