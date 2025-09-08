@@ -111,7 +111,8 @@ async def delete_category(session: session, category_id: int) -> dict:
     """
     category_delete = select(Category).where(Category.id == category_id)
     result = await session.execute(category_delete)
-    if not result:
+
+    if not result.scalars().one_or_none():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="There is no category found"
         )
