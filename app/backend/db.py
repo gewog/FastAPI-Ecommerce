@@ -11,7 +11,8 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from app.backend.settings import setting  # Экземпляр класса Settings
 
 from app.models.category import Category
-from app.models.products import Product, Base
+from app.models.products import Product
+from app.models.user import User, Base
 
 engine = create_async_engine(setting.get_path, echo=False)
 session = async_sessionmaker(bind=engine)

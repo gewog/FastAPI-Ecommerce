@@ -24,6 +24,8 @@ class Product(Base):
     price: Mapped[int_type]
     image_url: Mapped[str_type]
     stock: Mapped[int_type]
+    supplier_id : Mapped[int] = mapped_column(Integer, ForeignKey('users.id',
+                                                                  ondelete="CASCADE"), nullable=True)
     rating: Mapped[float] = mapped_column(Float)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"))

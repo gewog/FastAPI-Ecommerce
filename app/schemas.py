@@ -21,3 +21,12 @@ class CreateProduct(BaseModel):
     image_url: str
     stock: int
     category: int
+
+class CreateUser(BaseModel):
+    """Класс-модель создания пользователя"""
+
+    first_name: str
+    last_name: str
+    username: str
+    email: str
+    password: str
