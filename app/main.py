@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from app.routers import category_router, product_router
+from app.routers import category_router, product_router, auth_router
 
 
 @asynccontextmanager
@@ -29,7 +29,8 @@ async def main() -> dict:
 # Подключаем роуты из category.py и products.py
 app.include_router(category_router)
 app.include_router(product_router)
+app.include_router(auth_router)
 
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", reload=True, port=1111)
+    uvicorn.run("app.main:app", reload=True, port=1112)

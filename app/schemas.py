@@ -21,3 +21,23 @@ class CreateProduct(BaseModel):
     image_url: str
     stock: int
     category: int
+
+class CreateUser(BaseModel):
+    """Класс-модель создания пользователя"""
+
+    first_name: str
+    last_name: str
+    username: str
+    email: str
+    password: str
+
+class UserResponse(BaseModel):
+    """Модель ответа для пользователя"""
+    id: int
+    first_name: str
+    last_name: str
+    username: str
+    email: str
+
+    class Config:
+        from_attributes = True  # Позволяет создавать объект из ORM-объекта
