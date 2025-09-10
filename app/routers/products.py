@@ -18,6 +18,7 @@ from app.models.category import Category
 from app.models.products import Product  # Импортирую SQLAlchemy модель
 from app.backend.db_depends import get_session  # Импортирую функцию зависимость
 
+from app.routers.auth import get_current_username
 
 session = Annotated[
     AsyncSession, Depends(get_session)
@@ -27,7 +28,7 @@ session = Annotated[
 router = APIRouter(prefix="/products", tags=["products 🥭🍎🍐"])
 
 
-@router.get("/", summary="Получить все продукты")  # Done
+@router.get("/", summary="Получить все продукты")
 async def all_products(session: session):
     """Получение всех активных продуктов с ненулевым остатком.
     Returns:
@@ -47,7 +48,8 @@ async def all_products(session: session):
 
 @router.post("/create", summary="Создать продукт")  # Done
 async def create_product(
-    session: session, product: CreateProduct
+    session: session, product: CreateProduct,
+    user: Annotated[get_current_username, Depends(get_current_username)]
 ) -> Dict[str, Any]:
     """Создание нового продукта.
     Args:
@@ -57,6 +59,11 @@ async def create_product(
     Raises:
         HTTPException: Если категория не найдена.
     """
+    if not (user.is_admin or user.is_supplier):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not authorized to use this method."
+        )
     category_query = select(Category).where(Category.id == product.category)
     category_result = await session.execute(category_query)
     category = category_result.scalars().first()
@@ -74,6 +81,7 @@ async def create_product(
             "price": product.price,
             "image_url": product.image_url,
             "stock": product.stock,
+            "supplier_id": int(user.id),
             "rating": 0.0,
             "category_id": product.category,
         },
@@ -149,9 +157,10 @@ async def product_detail(
         )
 
 
-@router.put("/detail/{product_slug}", summary="Изменить информацию о товаре")
+@router.put("/detail/{product_slug}", summary="Изменить информацию о товаре") # Доделать
 async def update_product(
-    session: session, product_slug: str, product: CreateProduct
+    session: session, product_slug: str, product: CreateProduct,
+    user: Annotated[get_current_username, Depends(get_current_username)]
 ) -> Dict[str, str]:
     """Обновление информации о продукте.
     Args:
@@ -165,6 +174,11 @@ async def update_product(
     check_query = select(Product).filter_by(slug=product_slug)
     query = await session.execute(check_query)
     result = query.scalars().one_or_none()
+    if not (user.is_admin or (user.is_supplier and user.id == result.supplier_id)):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='You are not authorized to use this method'
+        )
     if result:
         new_product = (
             update(Product)
@@ -183,6 +197,7 @@ async def update_product(
         )
         await session.execute(new_product)
         await session.commit()
+        await session.refresh(result)  # Обновляем объект после коммита
         return {"Детальная информация": result.description}
     else:
         raise HTTPException(
@@ -192,7 +207,8 @@ async def update_product(
 
 @router.delete("/delete", summary="Удалить товар")
 async def delete_product(
-    session: session, product_slug: str
+    session: session, product_slug: str,
+    user: Annotated[get_current_username, Depends(get_current_username)]
 ) -> Dict[str, Any]:
     """Удаление продукта по его slug.
     Args:
@@ -202,6 +218,11 @@ async def delete_product(
     Raises:
         HTTPException: Если продукт не найден.
     """
+    if not user.is_admin or user.is_supplier:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not authorized to use this method."
+        )
     check_product = select(Product).filter_by(slug=product_slug)
     check_query = await session.execute(check_product)
     result = check_query.scalars().one_or_none()
