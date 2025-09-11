@@ -31,3 +31,6 @@ class Product(Base):
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"))
     category: Mapped["Category"] = relationship(
         back_populates="product") # Отношение многие к 1 с таблицей Category
+
+    # Новое
+    review: Mapped[list["Review"]] = relationship(back_populates="product") # 1 продукт - много отзывов

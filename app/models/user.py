@@ -3,6 +3,7 @@
 """
 from app.models.products import Base
 from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class User(Base):
@@ -20,3 +21,5 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     is_supplier = Column(Boolean, default=False)
     is_customer = Column(Boolean, default=True)
+    # Новое
+    review: Mapped[list["Review"]] = relationship(back_populates="user")  # 1 продукт - много отзывов

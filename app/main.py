@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from app.routers import category_router, product_router, auth_router
+from app.routers import category_router, product_router, auth_router, review_router
 
 
 @asynccontextmanager
@@ -30,6 +30,7 @@ async def main() -> dict:
 app.include_router(category_router)
 app.include_router(product_router)
 app.include_router(auth_router)
+app.include_router(review_router)
 
 
 if __name__ == "__main__":
