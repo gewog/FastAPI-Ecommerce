@@ -12,7 +12,8 @@ from app.backend.settings import setting  # Экземпляр класса Sett
 
 from app.models.category import Category
 from app.models.products import Product
-from app.models.user import User, Base
+from app.models.user import User
+from app.models.review import Review, Base
 
 engine = create_async_engine(setting.get_path, echo=False)
 session = async_sessionmaker(bind=engine)

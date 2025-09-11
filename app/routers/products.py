@@ -230,6 +230,7 @@ async def delete_product(
     if result is not None:
         product_delete = delete(Product).filter_by(slug=product_slug)
         query = await session.execute(product_delete)
+        session.commit()
         return {
             "status_code": status.HTTP_200_OK,
             "transaction": "Product delete is successful",
