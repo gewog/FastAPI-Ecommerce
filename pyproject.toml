@@ -3,29 +3,32 @@ name = "fastapi-ecommerce"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "gewoggewog",email = "gewoggewog@gmail.com"}
+    {name = "gewoggewog", email = "gewoggewog@gmail.com"}
 ]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi[all] (>=0.116.1,<0.117.0)",
-    "greenlet (>=3.2.4,<4.0.0)",
-    "black (>=25.1.0,<26.0.0)",
-    "pylint (>=3.3.8,<4.0.0)",
-    "sqlalchemy[all] (>=2.0.43,<3.0.0)",
-    "asyncpg (>=0.30.0,<0.31.0)",
-    "alembic[all] (>=1.16.5,<2.0.0)",
-    "slugify (>=0.0.1,<0.0.2)",
-    "python-slugify (>=8.0.4,<9.0.0)",
-    "passlib (>=1.7.4,<2.0.0)",
-    "bcrypt (>=4.3.0,<5.0.0)",
-    "pytest (>=8.4.2,<9.0.0)",
-    "httpx (>=0.28.1,<0.29.0)",
-    "pytest-asyncio (>=1.2.0,<2.0.0)"
+    "fastapi>=0.116.1,<0.117.0",
+    "greenlet>=3.2.4,<4.0.0",
+    "black>=25.1.0,<26.0.0",
+    "pylint>=3.3.8,<4.0.0",
+    "sqlalchemy>=2.0.43,<3.0.0",
+    "asyncpg>=0.30.0,<0.31.0",
+    "alembic>=1.16.5,<2.0.0",
+    "slugify>=0.0.1,<0.0.2",
+    "python-slugify>=8.0.4,<9.0.0",
+    "passlib>=1.7.4,<2.0.0",
+    "bcrypt>=4.3.0,<5.0.0",
+    "pytest>=8.4.2,<9.0.0",
+    "httpx>=0.28.1,<0.29.0",
+    "pytest-asyncio>=1.2.0,<2.0.0"
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [
+    { include = "app/backend" }
