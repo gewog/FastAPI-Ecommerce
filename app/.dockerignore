@@ -1,13 +1,54 @@
-# Локальные файлы IDE и кэш
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
 .idea/
 .vscode/
-__pycache__/
-*.py[cod]
 *.swp
+*.swo
 
-# Виртуальное окружение (если есть)
-venv/
+# Git
+.git/
+.gitignore
+.gitmodules
+.gitlab-ci.yml
 
-# Логи и временные файлы
-*.log
+# Docker
+Dockerfile
+docker-compose.yml
+
+# SQLite (если используется для тестов)
 *.sqlite
+*.db
+
+# Logs
+*.log
+*.csv
+*.json
+
+# Игнорируем .env в папке backend
+backend/.env
+
+# Игнорируем виртуальное окружение и временные файлы
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+.env.*.local
+
+# Poetry (не игнорируем pyproject.toml и poetry.lock!)
+!pyproject.toml
+!poetry.lock
+
+# Другие временные файлы
+*.tar
+*.docker.tar.gz
+.DS_Store

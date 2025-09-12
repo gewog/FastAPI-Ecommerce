@@ -1,16 +1,59 @@
-# Виртуальное окружение
-venv/
-
-# Локальные настройки и секреты
-.env
-
-# Кэш Python
+# Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# IDE-специфичные файлы
+# Virtualenv
+venv/
+.env
+.venv/
+
+# IDE
 .idea/
 .vscode/
+*.swp
+*.swo
 
-# Логи
+# SQLite (если используется для тестов)
+*.sqlite
+*.db
+
+# Logs
 *.log
+
+# Docker
+*.tar
+*.docker.tar.gz
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Poetry (НЕ игнорируйте poetry.lock!)
+# poetry.lock — должен быть в репозитории!
+
+# Игнорируем .env в папке backend
+backend/.env

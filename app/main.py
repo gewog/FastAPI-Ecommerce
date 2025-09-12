@@ -34,4 +34,4 @@ app.include_router(review_router)
 
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", reload=True, port=1112)
+    uvicorn.run("app.main:app", reload=True, port=8000)
