@@ -78,7 +78,7 @@ async def all_reviews(session: session):
              summary="Метод добавления отзыва и рейтинга об определенном товаре")
 async def add_review(session: session, review: UsersReview,
                      user: Annotated[get_current_username, Depends(get_current_username)]) -> dict:
-    """ тут нужен доксринг"""
+    """Тут нужен доксринг"""
     if not user.is_customer:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -111,7 +111,7 @@ async def add_review(session: session, review: UsersReview,
 async def delete_reviews(session:session,
                          user: Annotated[get_current_username, Depends(get_current_username)],
                          review_id: int):
-    """Тут аннотация"""
+    """Тут докстринг, необходимо добавить аннотацию"""
     if not user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -129,9 +129,41 @@ async def delete_reviews(session:session,
     query = update(Review).values({"is_active": False},).filter_by(id = review_id)
     await session.execute(query)
     await session.commit()
+
+    query_for_recount = await session.execute(
+        select(Review).where(Review.id == review_id)
+    )
+    review_for_recount = query_for_recount.scalars().one()
+    await update_rating(session, review_for_recount.product_id)
     return {
         "status_code": status.HTTP_200_OK,
-        "transaction": "Product delete is successful",
+        "transaction": "Review delete is successful",
     }
+
+@router.get("/products_reviews/{slug}",
+            summary="Метод получения отзывов и его рейтингов об определенном товаре")
+async def products_reviews(session: session, slug: str):
+    """Тут докстринг"""
+    product_revies = {}
+    query = select(Product).where(Product.slug == slug, Product.is_active == True)
+    result = await session.execute(query)
+    product = result.scalars().one_or_none()
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail= "There is no product with this slug"
+        )
+    product_revies[product.name] = []
+    review_query = await session.execute(
+        select(Review).where(Review.product_id == product.id, Review.is_active == True)
+    )
+    reviews = review_query.scalars().all()
+    for review in reviews:
+        product_revies[product.name].append({"Rating": review.rating,
+                                             "Comment": review.comment})
+    return product_revies
+
+
+
 
 
