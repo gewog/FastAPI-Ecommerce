@@ -8,9 +8,9 @@ from app.routers import category_router, product_router, auth_router, review_rou
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Приложение запущено")
+    print("Приложение запущено!")
     yield
-    print("Приложение остановлено")
+    print("Приложение остановлено!")
 
 
 app = FastAPI(
