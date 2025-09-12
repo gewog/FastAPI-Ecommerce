@@ -11,7 +11,7 @@ COPY pyproject.toml poetry.lock ./
 
 # Устанавливаем зависимости (включая dev-зависимости для тестов)
 RUN poetry config virtualenvs.create false && \
-    poetry install --with dev
+    poetry install
 
 # Копируем остальные файлы проекта
 COPY . .
