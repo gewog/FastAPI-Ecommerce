@@ -1,5 +1,5 @@
 # Используем официальный образ Python
-FROM python:3.11-slim as builder
+FROM python:3.13-slim as builder
 
 # Устанавливаем Poetry
 RUN pip install poetry
@@ -17,7 +17,7 @@ RUN poetry config virtualenvs.create false && \
 COPY . .
 
 # Собираем финальный образ
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Устанавливаем системные зависимости (если нужны)
 RUN apt-get update && apt-get install -y \
