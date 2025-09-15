@@ -112,38 +112,7 @@ poetry run pytest tests/
 ### 📂 Структура проекта
 ```
 FastAPI-Ecommerce/
-├── app/
-│ └── backend/
-│ ├── .env.example
-│ ├── db.py
-│ ├── db_depends.py
-│ ├── main.py
-│ ├── models/
-│ │ ├── init.py
-│ │ ├── category.py
-│ │ ├── product.py
-│ │ ├── review.py
-│ │ └── user.py
-│ ├── routers/
-│ │ ├── init.py
-│ │ ├── auth.py
-│ │ ├── category.py
-│ │ ├── product.py
-│ │ └── review.py
-│ ├── schemas.py
-│ └── settings.py
-├── tests/
-│ └── test_main.py
-├── .dockerignore
-├── .gitignore
-├── .github/
-│ └── workflows/
-│ └── ci.yml
-├── Dockerfile
-├── docker-compose.yml
-├── poetry.lock
-├── pyproject.toml
-└── README.md
+описание будет позже
 ```
 
 ### 🔗 Полезные ссылки
