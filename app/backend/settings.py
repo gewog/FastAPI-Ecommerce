@@ -6,6 +6,7 @@
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     """
     Класс для загрузки и управления настройками приложения из переменных окружения.
@@ -16,12 +17,13 @@ class Settings(BaseSettings):
         DB_HOST (str): Хост (адрес сервера) базы данных.
         DB_NAME (str): Название базы данных.
     """
+
     DB_USER: str
     DB_PASS: str
     DB_PORT: int
     DB_HOST: str
     DB_NAME: str
-    
+
     @property
     def get_path(self):
         """
@@ -31,8 +33,10 @@ class Settings(BaseSettings):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
     model_config = SettingsConfigDict(
-        env_file=r"C:\Users\GIGABYTE\Desktop\Сетевое окружение\FastAPI-Ecommerce\app\backend\.env",  # Путь к файлу с переменными окружения
-        extra="ignore"  # Игнорировать лишние переменные в .env
+        # Путь к файлу с переменными окружения
+        env_file=r"C:\Users\GIGABYTE\Desktop\Сетевое окружение\FastAPI-Ecommerce\app\backend\.env",
+        extra="ignore",  # Игнорировать лишние переменные в .env
     )
+
 
 setting = Settings()

@@ -4,8 +4,10 @@
 Этот модуль содержит функцию для создания и управления асинхронными сессиями SQLAlchemy,
 которые используются для взаимодействия с базой данных в асинхронном режиме.
 """
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.backend.db import session
+
 
 async def get_session() -> AsyncSession:
     """
@@ -17,5 +19,4 @@ async def get_session() -> AsyncSession:
         try:
             yield ss
         finally:
-            await ss.close() # Закрывает сессию при ошибке
-
+            await ss.close()  # Закрывает сессию при ошибке
