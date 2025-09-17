@@ -20,7 +20,9 @@ from app.backend.db_depends import get_session  # Импортирую функ�
 from app.routers.auth import get_current_username
 
 
-session = Annotated[AsyncSession, Depends(get_session)]  # Аннотация типа для зависимости сессии
+session = Annotated[
+    AsyncSession, Depends(get_session)
+]  # Аннотация типа для зависимости сессии
 
 
 router = APIRouter(prefix="/category", tags=["category 🍔🍑🍅"])
@@ -42,8 +44,11 @@ async def get_all_categories(session: session):
 
 
 @router.post("/create", summary="Создать категорию продуктов")
-async def create_category(session: session, category: CreateCategory,
-                          user: Annotated[get_current_username, Depends(get_current_username)]) -> dict :
+async def create_category(
+    session: session,
+    category: CreateCategory,
+    user: Annotated[get_current_username, Depends(get_current_username)],
+) -> dict:
     """Создает новую категорию продуктов.
     Args:
         session: Асинхронная сессия SQLAlchemy.
@@ -54,25 +59,27 @@ async def create_category(session: session, category: CreateCategory,
         HTTPException: Если не удалось создать категорию."""
     if not user.is_admin:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You cannot add categories."
+            status_code=status.HTTP_403_FORBIDDEN, detail="You cannot add categories."
         )
     category_create = insert(Category).values(
-            {
-                "parent_id": category.parent_id,
-                "name": category.name,
-                "slug": slugify(category.name),
-            },
-        )
+        {
+            "parent_id": category.parent_id,
+            "name": category.name,
+            "slug": slugify(category.name),
+        },
+    )
     await session.execute(category_create)
     await session.commit()
     return {"status_code": status.HTTP_201_CREATED, "transaction": "Successful"}
 
 
-
 @router.put("/update_category", summary="Обновить категорию продуктов")
-async def update_category(session: session, category_id: int, new_data: CreateCategory,
-                          user: Annotated[get_current_username, Depends(get_current_username)]):
+async def update_category(
+    session: session,
+    category_id: int,
+    new_data: CreateCategory,
+    user: Annotated[get_current_username, Depends(get_current_username)],
+):
     """Обновляет данные категории продуктов.
     Args:
         session: Асинхронная сессия SQLAlchemy.
@@ -86,7 +93,7 @@ async def update_category(session: session, category_id: int, new_data: CreateCa
     if not user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You cannot update categories."
+            detail="You cannot update categories.",
         )
     category_update = select(Category).where(Category.id == category_id)
     result = await session.execute(category_update)
@@ -114,8 +121,11 @@ async def update_category(session: session, category_id: int, new_data: CreateCa
 
 
 @router.delete("/delete", summary="Удалить категорию продуктов")
-async def delete_category(session: session, category_id: int,
-                          user: Annotated[get_current_username, Depends(get_current_username)]) -> dict:
+async def delete_category(
+    session: session,
+    category_id: int,
+    user: Annotated[get_current_username, Depends(get_current_username)],
+) -> dict:
     """Выполняет мягкое удаление категории (is_active=False).
     Args:
         session: Асинхронная сессия SQLAlchemy.
@@ -128,7 +138,7 @@ async def delete_category(session: session, category_id: int,
     if not user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You cannot delete categories."
+            detail="You cannot delete categories.",
         )
     category_delete = select(Category).where(Category.id == category_id)
     result = await session.execute(category_delete)
