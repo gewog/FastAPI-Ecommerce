@@ -1,6 +1,7 @@
 """
 Pydantic модели для категорий, продуктов, отзывов
 """
+
 from typing import Optional
 from datetime import datetime
 
@@ -24,6 +25,7 @@ class CreateProduct(BaseModel):
     stock: int
     category: int
 
+
 class CreateUser(BaseModel):
     """Класс-модель создания пользователя"""
 
@@ -33,8 +35,10 @@ class CreateUser(BaseModel):
     email: str
     password: str
 
+
 class UserResponse(BaseModel):
     """Модель ответа для пользователя"""
+
     id: int
     first_name: str
     last_name: str
@@ -44,8 +48,10 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True  # Позволяет создавать объект из ORM-объекта
 
+
 class UsersReview(BaseModel):
     """Класс-модель создания отзыва"""
+
     id: int
     rating: float = Field(ge=0, le=10)
     comment: str
@@ -53,5 +59,3 @@ class UsersReview(BaseModel):
     product_id: int
     is_active: bool = True
     comment_date: Optional[datetime] = None
-
-  

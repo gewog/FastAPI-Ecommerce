@@ -48,8 +48,9 @@ async def all_products(session: session):
 
 @router.post("/create", summary="Создать продукт")  # Done
 async def create_product(
-    session: session, product: CreateProduct,
-    user: Annotated[get_current_username, Depends(get_current_username)]
+    session: session,
+    product: CreateProduct,
+    user: Annotated[get_current_username, Depends(get_current_username)],
 ) -> Dict[str, Any]:
     """Создание нового продукта.
     Args:
@@ -62,7 +63,7 @@ async def create_product(
     if not (user.is_admin or user.is_supplier):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You are not authorized to use this method."
+            detail="You are not authorized to use this method.",
         )
     category_query = select(Category).where(Category.id == product.category)
     category_result = await session.execute(category_query)
@@ -135,9 +136,7 @@ async def product_by_category(
 
 
 @router.get("/detail/{product_slug}", summary="Получить детальную информацию о товаре")
-async def product_detail(
-    session: session, product_slug: str
-) -> Dict[str, str]:
+async def product_detail(session: session, product_slug: str) -> Dict[str, str]:
     """Получение детальной информации о продукте по его slug.
     Args:
         product_slug (str): Slug продукта.
@@ -157,10 +156,14 @@ async def product_detail(
         )
 
 
-@router.put("/detail/{product_slug}", summary="Изменить информацию о товаре") # Доделать
+@router.put(
+    "/detail/{product_slug}", summary="Изменить информацию о товаре"
+)  # Доделать
 async def update_product(
-    session: session, product_slug: str, product: CreateProduct,
-    user: Annotated[get_current_username, Depends(get_current_username)]
+    session: session,
+    product_slug: str,
+    product: CreateProduct,
+    user: Annotated[get_current_username, Depends(get_current_username)],
 ) -> Dict[str, str]:
     """Обновление информации о продукте.
     Args:
@@ -177,7 +180,7 @@ async def update_product(
     if not (user.is_admin or (user.is_supplier and user.id == result.supplier_id)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='You are not authorized to use this method'
+            detail="You are not authorized to use this method",
         )
     if result:
         new_product = (
@@ -207,8 +210,9 @@ async def update_product(
 
 @router.delete("/delete", summary="Удалить товар")
 async def delete_product(
-    session: session, product_slug: str,
-    user: Annotated[get_current_username, Depends(get_current_username)]
+    session: session,
+    product_slug: str,
+    user: Annotated[get_current_username, Depends(get_current_username)],
 ) -> Dict[str, Any]:
     """Удаление продукта по его slug.
     Args:
@@ -221,7 +225,7 @@ async def delete_product(
     if not user.is_admin or user.is_supplier:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You are not authorized to use this method."
+            detail="You are not authorized to use this method.",
         )
     check_product = select(Product).filter_by(slug=product_slug)
     check_query = await session.execute(check_product)
