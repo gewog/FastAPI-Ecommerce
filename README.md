@@ -131,3 +131,8 @@ gewog
 ### 📄 Лицензия
 Проект распространяется под лицензией MIT.
 
+<!-- Картинка -->
+<div align="center">
+  <img src="https://media.tenor.com/PdQfH0XTvfcAAAAj/monster-alien.gif" alt="Демо" width="200" />
+</div>
+
